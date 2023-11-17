@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Task App</title>
+    <!--- FRAMEWORK BOOTSTRAMP -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css" integrity="sha384-9+PGKSqjRdkeAU7Eu4nkJU8RFaH8ace8HGXnkiKMP9I9Te0GJ4/km3L1Z8tXigpG" crossorigin="anonymous">
+    <!--- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <!--- Styles CSS-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+    <main class="container p-3">
+        <h1 class="display-4 text-center title mt-4">Task APP</h1>
+
+        <div class="row">
+            <div class="col-md-4 offset-md-4 my-auto">
+                <div class="card">
+
+                    <!-- Div Header -->
+                    <div class="card-header">
+                        <form action="/create-task" method="POST" name="taskForm">
+                            <div class="form-group">
+                                <input type="text" placeholder="Task" class="form-control" name="content-task" autofocus>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block" onclick="validateForm()">
+                                Save task
+                            </button>
+                            <!-- Div para mostrar la alerta -->
+                            <!-- <div  class="alert alert-danger mt-2" >
+                                
+                            </div> -->
+                            <div id="alert" class="warning mt-2" style="display: none;">
+                                <div class="content">
+                                    <div class="icon">
+                                        <svg height="0%" viewBox="0 0 512 512" width="25" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="#fff" d="M449.07,399.08,278.64,82.58c-12.08-22.44-44.26-22.44-56.35,0L51.87,399.08A32,32,0,0,0,80,446.25H420.89A32,32,0,0,0,449.07,399.08Zm-198.6-1.83a20,20,0,1,1,20-20A20,20,0,0,1,250.47,397.25ZM272.19,196.1l-5.74,122a16,16,0,0,1-32,0l-5.74-121.95v0a21.73,21.73,0,0,1,21.5-22.69h.21a21.74,21.74,0,0,1,21.73,22.7Z"/>
+                                          </svg>                                          
+                                    </div>
+                                    <p>Please add any content to your task</p>
+                                </div>
+                              </div>
+                        </form>
+                    </div>
+
+                    <!-- Div Body -->
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <!-- Impresión de lista de tareas -->
+                            {% if list_tasks %}
+                                {% for task in list_tasks  %}
+                            <li class="list-group-item">
+                                <!-- Tarea realizada -->
+                                <span class="{% if task.done %} done {% endif %}"> {{ task.content }} </span>
+                                <div>
+                                    <a href="/api/task/done/{{task.rowid}}" class="btn btn-success btn-sm">Done</a>
+                                <!-- Borrar tarea -->
+                                    <a href="/api/task/delete/{{task.rowid}}" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                            </li>
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-dismissible alert-info">
+                                    <p class="mb-0">No tasks available.</p>
+                                </div>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <!-- Scrits -->
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
